@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        Tabbed panels using CSS
+    </title>
+    <link rel="stylesheet" type="text/css" href="/static/css/tabbed-panels.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/stylesheet/stylesheet-image-based.css">
+    <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="tabbed">
+    <input name="tabbed" id="tabbed1" type="radio" checked>
+    <section>
+        <h1>
+            <label for="tabbed1">Containers</label>
+        </h1>
+        <div>
+            <table>
+                <tr>
+                    <td>ID</td>
+                    <td>image</td>
+                    <td>NAME</td>
+                    <td>STATUS</td>
+                    <td>PORTS</td>
+                    <td></td>
+                </tr>
+                {% for container in containers %}
+                    <tr>
+                        <td>{{ container.id|slice(0, 10) }}</td>
+                        <td>{{ container.image }}</td>
+                        <td>{{ container.names[0] }}</td>
+                        <td>{{ container.status }}</td>
+                        <td>
+                            {% for port in container.ports %}
+                                {{ port.publicPort }}->{{ port.privatePort }}
+                            {% endfor %}
+
+                        </td>
+                        <td><a href="/index.php/stop/{{ container.id }}">STOP</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+
+
+        </div>
+    </section>
+    <input name="tabbed" id="tabbed2" type="radio">
+    <section>
+        <h1>
+            <label for="tabbed2">RUN</label>
+        </h1>
+        <div id="container_run">
+            <style type="text/css">
+                #container_run input[type=text] {width:300px;}
+            </style>
+            <form action="/index.php/run" method="post">
+                <table>
+                    <tr>
+                        <td>Repository Type</td>
+                        <td>
+                            <input id="r_git" type="radio" name="repository_type" value="git"/>
+                            <label for="r_git">GIT</label>
+                            <input id="r_svn" type="radio" name="repository_type" value="svn"/>
+                            <label for="r_svn">SVN</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Repository Path</td>
+                        <td>
+                            <input type="text" name="repository_path" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Branch Name</td>
+                        <td>
+                            <input type="text" name="branch_name" value="master" /> 注:svn忽略此参数
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Project Name</td>
+                        <td><input type="text" name="project_name" /></td>
+                    </tr>
+                    <tr>
+                        <td>Project Port</td>
+                        <td><input type="text" name="project_port" /></td>
+                    </tr>
+                    <tr>
+                        <td>挂载目录</td>
+                        <td><input type="text" name="mount_dirs" /></td>
+                    </tr><tr>
+                        <td></td>
+                        <td><input type="submit" value="submit" /></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </section>
+    <input name="tabbed" id="tabbed3" type="radio">
+    <section>
+        <h1>
+            <label for="tabbed3">Article 3</label>
+        </h1>
+        <div>
+            Everyone has the right to life, liberty and security of person.
+        </div>
+    </section>
+    <input name="tabbed" id="tabbed4" type="radio">
+    <section>
+        <h1>
+            <label for="tabbed4">Article 4</label>
+        </h1>
+        <div>
+            No one shall be held in slavery or servitude; slavery and the slave trade shall be prohibited in all their forms.
+        </div>
+    </section>
+    <input name="tabbed" id="tabbed5" type="radio">
+    <section>
+        <h1>
+            <label for="tabbed5">PUBLIC Key</label>
+        </h1>
+
+        <div>
+            <textarea style="width:99%;" rows="50">{{ public_key }}</textarea>
+        </div>
+    </section>
+    <input name="tabbed" id="tabbed6" type="radio">
+    <section>
+        <h1>
+            <label for="tabbed6">解析Json</label>
+        </h1>
+        <div>
+            <form id="form_parse_json" method="post">
+                URL:<input type="text" name="url" style="width:350px"/>
+                SESSION ID:<input name="session_id" type="text" style="width:200px" />
+                <input type="button" value="submit" onclick="parse_json_url()">
+            </form>
+            <div id="div_parse_json">
+
+            </div>
+            <script>
+                function parse_json_url() {
+                    params = $("#form_parse_json").serialize();
+                    url = "/index.php/parse_json";
+
+                    $.post(url, params, function(data) {
+                        if (data.json) {
+                            $("#div_parse_json").html(data.json);
+                        }
+                    },'json');
+                }
+            </script>
+        </div>
+    </section>
+</div>
+</body>
+</html>

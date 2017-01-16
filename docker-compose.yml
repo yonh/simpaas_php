@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  app:
+    build: docker-image
+    ports:
+        - "8888:80"
+    image: yonh/simpaas-php
+    container_name: simpaas
+    restart: always
+    volumes:
+      - .:/app
+    environment:
+      - WEBAPP_ROOT=src/public

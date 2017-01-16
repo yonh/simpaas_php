@@ -1,0 +1,22 @@
+{
+    "name": "yonh/simpaas",
+    "description": "simple paas app",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "yonh",
+            "email": "azssjli@163.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "^3.6",
+        "slim/twig-view": "^2.1",
+        "robmorgan/phinx": "^0.6.5",
+        "docker-php/docker-php": "^1.24"
+    },
+    "autoload": {
+        "classmap": [
+            "src/classes"
+        ]
+    }
+}
